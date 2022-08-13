@@ -19,11 +19,34 @@ public class Main {
                 45
         };
 
-        int[] numb = new int[5];
+        int[] numb = new int[products.length];
+
+        String[] saleProducts = {
+                "Йогурт",
+                "Печенье",
+                "Макароны"
+        };
+
+        int[] salePrices = {
+                30,
+                50,
+                100
+        };
+
+        int[] saleNumb = new int[salePrices.length];
+        int saleOllSum = 0;
+        int saleNumProduct;
+        int saleAmount;
+        double sumPoz;
 
         System.out.println("Список возможных товаров для покупки: ");
         for (int i = 0; i < products.length; i++) {
             System.out.println((i + 1) + ". " + products[i] + " " + prises[i] + " руб/шт");
+        }
+
+        System.out.println(System.lineSeparator() + "Список товаров по акции 2=3: ");
+        for (int j = 0; j < saleProducts.length; j++) {
+            System.out.println((j + 6) + ". " + saleProducts[j] + " " + salePrices[j] + " руб/шт");
         }
 
         int ollSum = 0;
@@ -51,15 +74,20 @@ public class Main {
                 continue;
             }
 
-            if (numProduct < 0 || numProduct > 4) {
+            if (numProduct < 0 || numProduct >= (products.length + saleProducts.length)) {
                 System.out.println("Некорректный ввод позиции! Нужно выбрать номер позиции из списка!");
                 continue;
             }
 
-            numb[numProduct] += amount;//сумма штук введенного
-
-            int sum = amount * prises[numProduct];
-            ollSum += sum;// подсчет общей суммы списка
+            if (numProduct < products.length) {
+                numb[numProduct] += amount;//сумма штук введенного
+                int sum = amount * prises[numProduct];
+                ollSum += sum;// подсчет общей суммы списка
+            } else {
+                saleNumProduct = numProduct - products.length;
+                saleAmount = amount;
+                saleNumb[saleNumProduct] += saleAmount;//сумма штук введенного
+            }
         }
 
         System.out.println("Ваша корзина: ");
@@ -72,5 +100,22 @@ public class Main {
         }
 
         System.out.println("Итого: " + ollSum);
+
+        System.out.println("Ваша корзина c товарами по акции: ");
+
+        for (int i = 0; i < saleNumb.length; i++) {
+            if (saleNumb[i] != 0) {
+                sumPoz = (3 * (int) (saleNumb[i] / 3) * salePrices[i]) / 1.5 +
+                        (saleNumb[i] - 3 * (int) (saleNumb[i] / 3)) * salePrices[i];
+
+                System.out.println(saleProducts[i] + " " + saleNumb[i] + " шт " +
+                        salePrices[i] + " руб/шт " + sumPoz + " в сумме");
+
+                saleOllSum += sumPoz;
+            }
+        }
+
+        System.out.println("Итого по акции: " + saleOllSum);
+        System.out.println(System.lineSeparator() + "Итого за все: " + (ollSum + saleOllSum));
     }
 }
