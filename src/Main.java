@@ -70,7 +70,7 @@ public class Main {
                 numProduct = Integer.parseInt(parts[0]) - 1;
                 if ((numProduct + 1) > products.length + saleProducts.length || (numProduct + 1) <= 0) {
                     System.out.println("Введенное число не должно быть меньше 1 и больше 8");
-                    continue;
+                  continue;
                 }
                 amount = Integer.parseInt(parts[1]);
                 if (amount <= 0) {
